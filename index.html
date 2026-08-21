@@ -7,204 +7,45 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Gowun+Batang&family=IBM+Plex+Sans+KR:wght@400;500;600&display=swap" rel="stylesheet">
-
   <style>
-    :root{
-      --ink:#242320;--paper:#f5f2ea;--warm:#e8e0d1;
-      --line:#d6d0c5;--muted:#716d64;--accent:#4d716c;
-      --serif:"Gowun Batang","KoPub Batang",serif;
-      --sans:"IBM Plex Sans KR",Arial,sans-serif;
-    }
-    *{box-sizing:border-box}
-    body{margin:0;background:var(--paper);color:var(--ink);font:14px var(--sans)}
-    button,input,textarea{font:inherit}
-    button{cursor:pointer}
-    a{color:inherit}
-
-    .site-header{
-      height:72px;padding:0 4.5vw;display:flex;align-items:center;
-      justify-content:space-between;position:absolute;z-index:5;width:100%;color:#fff;
-    }
-    .brand{font:25px var(--serif);text-decoration:none}
-    .brand span{font:10px var(--sans);letter-spacing:.12em;margin-left:9px;opacity:.72}
-    .site-header nav{display:flex;gap:22px;font-size:12px}
-    .site-header nav a{text-decoration:none}
-
-    .view{display:none}
-    .view.is-active{display:block}
-
-    .hero,.archive-header{
-      min-height:660px;position:relative;overflow:hidden;display:grid;
-      align-items:center;justify-items:start;
-    }
-    .hero{background:var(--warm);color:var(--ink)}
-    .archive-header{background:#292925;color:#fff}
-
-    .hero-art,.archive-art{
-      position:absolute;inset:0 0 0 51%;
-      background-position:center;background-size:cover;
-    }
-    .hero-art{
-      background-image:
-        linear-gradient(90deg,var(--warm),transparent 26%),
-        url("https://images.metmuseum.org/CRDImages/as/original/DP251139.jpg");
-      filter:saturate(.58);
-    }
-    .archive-art{
-      background-image:
-        linear-gradient(90deg,#292925,transparent 26%),
-        url("https://images.metmuseum.org/CRDImages/as/original/DP251139.jpg");
-      filter:grayscale(1) brightness(.52);
-    }
-
-    .hero-content,.archive-hero-content{
-      position:relative;z-index:1;width:min(620px,43vw);
-      margin-left:12vw;padding:70px 0;
-    }
-    .eyebrow{
-      margin:0 0 13px;color:var(--accent);
-      font:500 10px var(--sans);letter-spacing:.18em;
-    }
-    h1{font:55px var(--serif);letter-spacing:-.06em;margin:0}
-    .subtitle,.archive-hero-content>p{
-      font-family:var(--serif);opacity:.75;margin:10px 0 28px;
-    }
-
-    .mode-search,.archive-mode-search{
-      display:grid;grid-template-columns:44px 66px 1fr;
-      align-items:center;gap:10px;
-    }
-    .mode-toggle{
-      height:44px;width:44px;border:1px solid currentColor;
-      background:transparent;color:inherit;display:grid;place-items:center;
-    }
-    .mode-toggle svg{
-      width:22px;fill:none;stroke:currentColor;stroke-width:1.45;
-      stroke-linecap:round;stroke-linejoin:round;
-    }
-    .mode-label{font-size:11px;letter-spacing:.09em}
-    .search-box,.archive-search{height:52px;background:#fff;display:flex}
-    .search-box input,.archive-search input{
-      flex:1;min-width:0;border:0;outline:0;padding:0 20px;
-      color:var(--ink);font:15px var(--serif);
-    }
-    .search-box button,.archive-search button,.dialog-actions button{
-      border:0;background:var(--accent);color:#fff;padding:0 23px;font-size:12px;
-    }
-    .suggestions,.archive-actions{margin:14px 0 0 120px}
-    .suggestions button{
-      border:0;background:none;color:inherit;text-decoration:underline;
-      text-underline-offset:3px;margin-right:13px;font-family:var(--serif);
-    }
-    .text-button{
-      color:inherit;border:1px solid currentColor;background:none;padding:11px 16px;font-size:12px;
-    }
-    .hero-caption{
-      position:absolute;z-index:1;right:4.5vw;bottom:20px;
-      margin:0;font:11px var(--serif);opacity:.75;
-    }
-
-    .content-section{max-width:1500px;margin:auto;padding:86px 4.5vw}
-    .section-heading{
-      display:flex;justify-content:space-between;align-items:end;
-      border-bottom:1px solid var(--ink);padding-bottom:18px;
-    }
-    h2{font:27px var(--serif);margin:0}
-    .filters,.archive-tabs{display:flex;gap:16px;flex-wrap:wrap}
-    .filters button,.archive-tabs button{
-      border:0;background:none;padding:4px 0;color:var(--muted);font-size:12px;
-    }
-    .filters .is-selected,.archive-tabs button[aria-selected="true"]{
-      color:var(--ink);border-bottom:1px solid var(--ink);
-    }
-    .results-summary{font-size:12px;color:var(--muted);margin:15px 0 23px}
-
-    .artifact-grid,.archive-grid{
-      display:grid;grid-template-columns:repeat(3,1fr);gap:34px 20px;
-    }
-    .artifact-card,.archive-card{min-width:0}
-    .artifact-image,.archive-image{
-      width:100%;aspect-ratio:1.12;display:block;object-fit:cover;
-      background:var(--warm);filter:saturate(.75);
-    }
-    .archive-image{aspect-ratio:1}
-    .archive-card.external .archive-image{
-      filter:grayscale(.85) blur(.35px) opacity(.52);
-    }
-    .placeholder{background:linear-gradient(135deg,#ddd4c4,#bcb5aa)}
-    .artifact-meta{padding-top:11px}
-    .artifact-topline,.archive-type{
-      margin:0 0 7px;color:var(--accent);font-size:10px;letter-spacing:.08em;
-    }
-    h3{font:17px var(--serif);margin:0 0 5px}
-    .artifact-detail,.archive-card p{margin:0;color:var(--muted);font-size:12px;line-height:1.6}
-    .card-actions,.archive-card-actions{display:flex;gap:13px;margin-top:11px}
-    .card-actions a,.card-actions button,.archive-card-actions button{
-      border:0;background:none;padding:0;color:var(--ink);font-size:11px;
-      text-decoration:underline;text-underline-offset:3px;
-    }
-    .archive-card-actions .delete-record{color:#9e4d42}
-    .archive-tabs{border-bottom:1px solid var(--line);padding-bottom:14px;margin-bottom:28px}
-    .archive-tabs span{font-size:10px}
-    .archive-source{margin-top:8px!important;color:var(--accent)!important;font-size:10px!important}
-
-    .empty-state{text-align:center;border:1px solid var(--line);padding:90px 20px}
-    .empty-state p:not(.eyebrow){font-family:var(--serif);color:var(--muted)}
-    footer{
-      border-top:1px solid var(--line);padding:26px 4.5vw;
-      display:flex;gap:25px;align-items:center;color:var(--muted);font-size:11px;
-    }
-    footer span{color:var(--ink);font:18px var(--serif)}
-    footer p{margin:0;flex:1}
-
-    dialog{
-      border:0;width:min(560px,92vw);padding:0;background:var(--paper);
-      color:var(--ink);box-shadow:0 20px 80px #0008;
-    }
-    dialog::backdrop{background:#171715aa}
-    dialog form{padding:30px}
-    .dialog-head{display:flex;justify-content:space-between;align-items:start;margin-bottom:24px}
-    .dialog-head h2{font-size:25px}
-    .icon-close{border:0;background:none;font-size:26px}
-    fieldset{border:0;padding:0;margin:0 0 17px;display:flex;gap:16px}
-    label{display:block;font-size:11px;margin-bottom:15px}
-    input,textarea{
-      width:100%;display:block;margin-top:6px;padding:10px;
-      border:1px solid var(--line);background:#fff;font:14px var(--serif);
-    }
-    input[type="radio"]{display:inline;width:auto;margin:0 4px 0 0}
-    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-    .dialog-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:24px}
-    .dialog-actions button{height:40px}
-    .dialog-actions .muted{background:#d9d3c8;color:var(--ink)}
-    .sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
-
-    @media(max-width:720px){
-      .site-header{height:60px;padding:0 6vw}
-      .site-header nav,.brand span{display:none}
-      .hero,.archive-header{min-height:620px}
-      .hero-art,.archive-art{inset:0;opacity:.22}
-      .hero-content,.archive-hero-content{width:88vw;margin-left:6vw;padding-top:80px}
-      h1{font-size:47px}
-      .mode-search,.archive-mode-search{grid-template-columns:42px 1fr}
-      .mode-label{display:none}
-      .search-box,.archive-search{grid-column:1/-1}
-      .suggestions,.archive-actions{margin-left:0}
-      .section-heading{display:block}
-      .filters{margin-top:20px}
-      .artifact-grid,.archive-grid{grid-template-columns:repeat(2,1fr);gap:27px 13px}
-      .content-section{padding:60px 6vw}
-      footer{display:block;padding:25px 6vw;line-height:1.7}
-      footer p{margin:6px 0}
-    }
+    :root{--ink:#242320;--paper:#f5f2ea;--line:#d6d0c5;--muted:#716d64;--accent:#4d716c;--serif:"Gowun Batang","KoPub Batang",serif;--sans:"IBM Plex Sans KR",Arial,sans-serif}
+    *{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:14px var(--sans)}button,input,textarea{font:inherit}button{cursor:pointer}a{color:inherit}
+    .site-header{height:72px;padding:0 4.5vw;display:flex;align-items:center;justify-content:space-between;position:absolute;z-index:5;width:100%;color:#fff}
+    .brand{font:25px var(--serif);text-decoration:none}.brand span{font:10px var(--sans);letter-spacing:.12em;margin-left:9px;opacity:.72}.site-header nav{display:flex;gap:22px;font-size:12px}.site-header nav a{text-decoration:none}
+    .view{display:none}.view.is-active{display:block}
+    .hero,.archive-header{min-height:660px;position:relative;overflow:hidden;display:grid;align-items:center;justify-items:start}
+    .hero{background:#e8e0d1}.archive-header{background:#292925;color:#fff}
+    .hero-art,.archive-art{position:absolute;inset:0 0 0 51%;background-position:center;background-size:cover}
+    .hero-art{background-image:linear-gradient(90deg,#e8e0d1,transparent 28%),url("https://images.metmuseum.org/CRDImages/as/original/DP251139.jpg");filter:saturate(.55)}
+    .archive-art{background-image:linear-gradient(90deg,#292925,transparent 28%),url("https://images.metmuseum.org/CRDImages/as/original/DP251139.jpg");filter:grayscale(1) brightness(.5)}
+    .hero-content,.archive-content-top{position:relative;z-index:1;width:min(620px,43vw);margin-left:12vw;padding:70px 0}
+    .eyebrow{margin:0 0 13px;color:var(--accent);font:500 10px var(--sans);letter-spacing:.18em}
+    h1{font:55px var(--serif);letter-spacing:-.06em;margin:0}.subtitle,.archive-content-top>p{font-family:var(--serif);opacity:.75;margin:10px 0 28px}
+    .mode-search{display:grid;grid-template-columns:44px 66px 1fr;align-items:center;gap:10px}
+    .mode-toggle{height:44px;width:44px;border:1px solid currentColor;background:transparent;color:inherit;display:grid;place-items:center}
+    .mode-toggle svg{width:22px;fill:none;stroke:currentColor;stroke-width:1.45;stroke-linecap:round;stroke-linejoin:round}.mode-label{font-size:11px;letter-spacing:.09em}
+    .search-box{height:52px;background:#fff;display:flex;border:1px solid var(--ink)}.archive-header .search-box{border:0}
+    .search-box input{flex:1;min-width:0;border:0;outline:0;padding:0 20px;color:var(--ink);font:15px var(--serif)}
+    .search-box button,.dialog-actions button{border:0;background:var(--accent);color:#fff;padding:0 23px;font-size:12px}
+    .suggestions,.archive-actions{margin:14px 0 0 120px}.suggestions button{border:0;background:none;text-decoration:underline;text-underline-offset:3px;margin-right:13px;font-family:var(--serif)}
+    .text-button{color:inherit;border:1px solid currentColor;background:none;padding:11px 16px;font-size:12px}.hero-caption{position:absolute;z-index:1;right:4.5vw;bottom:20px;margin:0;font:11px var(--serif);opacity:.75}
+    .content-section{max-width:1500px;margin:auto;padding:86px 4.5vw}.section-heading{display:flex;justify-content:space-between;align-items:end;border-bottom:1px solid var(--ink);padding-bottom:18px}h2{font:27px var(--serif);margin:0}
+    .filters,.archive-tabs{display:flex;gap:16px;flex-wrap:wrap}.filters button,.archive-tabs button{border:0;background:none;padding:4px 0;color:var(--muted);font-size:12px}.filters .selected,.archive-tabs button[aria-selected="true"]{color:var(--ink);border-bottom:1px solid var(--ink)}
+    .summary{font-size:12px;color:var(--muted);margin:15px 0 23px}.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:34px 20px}
+    .card-image{display:block;width:100%;aspect-ratio:1.12;object-fit:cover;background:#d9d1c4;filter:saturate(.75)}.archive-card .card-image{aspect-ratio:1}.reference .card-image{filter:grayscale(.9) opacity(.48)}.placeholder{display:grid;place-items:center;color:var(--muted);font:12px var(--serif);background:linear-gradient(135deg,#ddd4c4,#bcb5aa)}
+    .meta{padding-top:11px}.institution,.type{margin:0 0 7px;color:var(--accent);font-size:10px;letter-spacing:.08em}h3{font:17px var(--serif);margin:0 0 5px}.detail,.archive-card p{margin:0;color:var(--muted);font-size:12px;line-height:1.6}
+    .actions{display:flex;gap:13px;margin-top:11px}.actions a,.actions button{border:0;background:none;padding:0;color:var(--ink);font-size:11px;text-decoration:underline;text-underline-offset:3px}.delete{color:#9e4d42!important}
+    .archive-tabs{border-bottom:1px solid var(--line);padding-bottom:14px;margin-bottom:28px}.empty{text-align:center;border:1px solid var(--line);padding:90px 20px}.empty p:not(.eyebrow){font-family:var(--serif);color:var(--muted)}
+    footer{border-top:1px solid var(--line);padding:26px 4.5vw;display:flex;gap:25px;align-items:center;color:var(--muted);font-size:11px}footer span{color:var(--ink);font:18px var(--serif)}footer p{margin:0;flex:1}
+    dialog{border:0;width:min(560px,92vw);padding:0;background:var(--paper);color:var(--ink);box-shadow:0 20px 80px #0008}dialog::backdrop{background:#171715aa}dialog form{padding:30px}.dialog-head{display:flex;justify-content:space-between;align-items:start;margin-bottom:24px}.dialog-head h2{font-size:25px}.close{border:0;background:none;font-size:26px}
+    fieldset{border:0;padding:0;margin:0 0 17px;display:flex;gap:16px}label{display:block;font-size:11px;margin-bottom:15px}input,textarea{width:100%;display:block;margin-top:6px;padding:10px;border:1px solid var(--line);background:#fff;font:14px var(--serif)}input[type=radio]{display:inline;width:auto;margin:0 4px 0 0}.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}.dialog-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:24px}.dialog-actions button{height:40px}.dialog-actions .cancel{background:#d9d3c8;color:var(--ink)}.sr-only{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0,0,0,0)}
+    @media(max-width:720px){.site-header{height:60px;padding:0 6vw}.site-header nav,.brand span{display:none}.hero,.archive-header{min-height:620px}.hero-art,.archive-art{inset:0;opacity:.22}.hero-content,.archive-content-top{width:88vw;margin-left:6vw;padding-top:80px}h1{font-size:47px}.mode-search{grid-template-columns:42px 1fr}.mode-label{display:none}.search-box{grid-column:1/-1}.suggestions,.archive-actions{margin-left:0}.section-heading{display:block}.filters{margin-top:20px}.grid{grid-template-columns:repeat(2,1fr);gap:27px 13px}.content-section{padding:60px 6vw}footer{display:block;padding:25px 6vw;line-height:1.7}footer p{margin:6px 0}}
   </style>
 </head>
 
 <body>
   <header class="site-header">
-    <a class="brand" href="#search" aria-label="수집력 처음으로">
-      수집력<span>Collecting Archive</span>
-    </a>
+    <a class="brand" href="#search">수집력<span>Collecting Archive</span></a>
     <nav><a href="#guide">이용 안내</a><a href="#settings">설정</a></nav>
   </header>
 
@@ -212,7 +53,6 @@
     <section id="search-view" class="view is-active">
       <div class="hero">
         <div class="hero-art"></div>
-
         <div class="hero-content">
           <p class="eyebrow">PRIVATE COLLECTION RESEARCH</p>
           <h1>수집력</h1>
@@ -220,89 +60,75 @@
 
           <div class="mode-search">
             <button class="mode-toggle" data-switch="archive" aria-label="아카이브로 이동">
-              <svg viewBox="0 0 24 24">
-                <circle cx="10.8" cy="10.8" r="5.8"></circle>
-                <path d="m15.2 15.2 4.2 4.2"></path>
-              </svg>
+              <svg viewBox="0 0 24 24"><circle cx="10.8" cy="10.8" r="5.8"/><path d="m15.2 15.2 4.2 4.2"/></svg>
             </button>
             <span class="mode-label">SEARCH</span>
-
-            <form id="external-search-form" class="search-box">
-              <input id="external-search" type="search" placeholder="유물명, 시대, 재질, 기관명을 검색하세요">
+            <form id="search-form" class="search-box">
+              <input id="search-input" type="search" placeholder="영문 유물명 또는 시대를 검색하세요">
               <button>검색</button>
             </form>
           </div>
 
           <p class="suggestions">
-            <button data-term="청자">청자</button>
-            <button data-term="불상">불상</button>
-            <button data-term="도자기">도자기</button>
-            <button data-term="고려">고려</button>
+            <button data-term="celadon">청자</button>
+            <button data-term="buddha">불상</button>
+            <button data-term="ceramic">도자기</button>
+            <button data-term="Korea">고려</button>
           </p>
         </div>
-
-        <p class="hero-caption">풍경 / The Met · 공개 소장품 예시</p>
+        <p class="hero-caption">The Met · Open Access 이미지</p>
       </div>
 
       <section class="content-section">
         <div class="section-heading">
           <div><p class="eyebrow">PUBLIC COLLECTIONS</p><h2>살펴보기</h2></div>
           <div class="filters">
-            <button class="filter is-selected" data-filter="all">전체</button>
-            <button class="filter" data-filter="e-Museum">e-Museum</button>
+            <button class="filter selected" data-filter="all">전체</button>
             <button class="filter" data-filter="The Met">The Met</button>
+            <button class="filter" data-filter="e-Museum">e-Museum</button>
             <button class="filter" data-filter="Tokyo National Museum">Tokyo National Museum</button>
           </div>
         </div>
-
-        <p id="results-summary" class="results-summary">공개 소장품 예시 6점</p>
-        <div id="external-results" class="artifact-grid"></div>
+        <p id="summary" class="summary">검색어를 입력하거나 예시 검색어를 선택하세요.</p>
+        <div id="results" class="grid"></div>
       </section>
     </section>
 
     <section id="archive-view" class="view">
       <div class="archive-header">
         <div class="archive-art"></div>
-
-        <div class="archive-hero-content">
+        <div class="archive-content-top">
           <p class="eyebrow">PERSONAL COLLECTION</p>
           <h1>나의 아카이브</h1>
           <p>내 소장품과 조사·참고자료를 한곳에서 기록합니다.</p>
 
-          <div class="archive-mode-search">
+          <div class="mode-search">
             <button class="mode-toggle" data-switch="search" aria-label="검색으로 이동">
-              <svg viewBox="0 0 24 24">
-                <path d="M7 8.5c0-2.6 2.1-4.5 5-4.5s5 1.9 5 4.5M5.5 19.5h13l-1.2-8H6.7l-1.2 8ZM9 11.5V9m6 2.5V9"></path>
-              </svg>
+              <svg viewBox="0 0 24 24"><path d="M7 8.5c0-2.6 2.1-4.5 5-4.5s5 1.9 5 4.5M5.5 19.5h13l-1.2-8H6.7l-1.2 8ZM9 11.5V9m6 2.5V9"/></svg>
             </button>
             <span class="mode-label">ARCHIVE</span>
-
-            <form id="archive-search-form" class="archive-search">
-              <input id="archive-search-input" type="search" placeholder="제목, 태그, 시대, 재질, 메모 검색">
+            <form id="archive-search-form" class="search-box">
+              <input id="archive-search" type="search" placeholder="제목, 태그, 시대, 재질, 메모 검색">
               <button>검색</button>
             </form>
           </div>
 
-          <p class="archive-actions">
-            <button id="add-record" class="text-button">+ 새 기록</button>
-          </p>
+          <p class="archive-actions"><button id="new-record" class="text-button">+ 새 기록</button></p>
         </div>
       </div>
 
       <section class="content-section">
         <div class="archive-tabs">
-          <button data-archive-filter="all" aria-selected="true">전체 <span id="count-all">0</span></button>
-          <button data-archive-filter="owned" aria-selected="false">내 소장품 <span id="count-owned">0</span></button>
-          <button data-archive-filter="reference" aria-selected="false">조사·참고자료 <span id="count-reference">0</span></button>
+          <button data-tab="all" aria-selected="true">전체 <span id="all-count">0</span></button>
+          <button data-tab="owned" aria-selected="false">내 소장품 <span id="owned-count">0</span></button>
+          <button data-tab="reference" aria-selected="false">조사·참고자료 <span id="reference-count">0</span></button>
         </div>
-
-        <div id="archive-grid" class="archive-grid"></div>
-
-        <div id="archive-empty" class="empty-state">
+        <div id="archive-grid" class="grid"></div>
+        <div id="empty" class="empty">
           <p class="eyebrow">YOUR FIRST RECORD</p>
           <h2>아직 기록한 유물이 없습니다.</h2>
-          <p>검색 결과를 기록하거나 직접 사진과 정보를 추가해 보세요.</p>
-          <button class="text-button" data-open-record>+ 첫 기록 추가</button>
+          <p>검색 결과를 저장하거나, 직접 사진과 정보를 추가해 보세요.</p>
+          <button class="text-button" data-new>+ 첫 기록 추가</button>
         </div>
       </section>
     </section>
@@ -314,201 +140,182 @@
     <a href="https://colbase.nich.go.jp/?locale=ko" target="_blank">디자인 참고: COLBASE</a>
   </footer>
 
-  <dialog id="record-dialog">
+  <dialog id="dialog">
     <form id="record-form">
       <div class="dialog-head">
         <div><p class="eyebrow">NEW RECORD</p><h2>새 기록</h2></div>
-        <button class="icon-close" id="cancel-record" type="button">×</button>
+        <button class="close" id="close-dialog" type="button">×</button>
       </div>
-
       <fieldset>
-        <legend>기록 종류</legend>
         <label><input type="radio" name="kind" value="owned" checked> 내 소장품</label>
         <label><input type="radio" name="kind" value="reference"> 조사·참고자료</label>
       </fieldset>
-
-      <label>이미지<input id="image-input" type="file" accept="image/*"></label>
+      <label>이미지<input id="file-input" type="file" accept="image/*"></label>
       <label>유물명<input name="title" required placeholder="예: 청자 상감운학문 매병"></label>
-
       <div class="form-row">
         <label>시대<input name="period" placeholder="예: 고려"></label>
         <label>재질<input name="material" placeholder="예: 청자"></label>
       </div>
-
       <label>태그<input name="tags" placeholder="쉼표로 구분"></label>
-      <label>원문 링크<input name="sourceUrl" type="url" placeholder="https://"></label>
-      <label>메모<textarea name="note" rows="3" placeholder="기록하고 싶은 내용을 적어주세요."></textarea></label>
-
+      <label>원문 링크<input name="url" type="url" placeholder="https://"></label>
+      <label>메모<textarea name="note" rows="3"></textarea></label>
       <div class="dialog-actions">
-        <button id="cancel-record-bottom" class="muted" type="button">취소</button>
+        <button id="cancel-dialog" type="button" class="cancel">취소</button>
         <button type="submit">기록 저장</button>
       </div>
     </form>
   </dialog>
 
   <script>
-    const externalItems = [
+    const MET_API = "https://collectionapi.metmuseum.org/public/collection/v1";
+    const $ = selector => document.querySelector(selector);
+    const esc = value => String(value || "").replace(/[&<>"']/g, char => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[char]));
+    const readArchive = () => JSON.parse(localStorage.getItem("sujiplyeok-records") || "[]");
+    const saveArchive = records => localStorage.setItem("sujiplyeok-records", JSON.stringify(records));
+
+    const terms = {
+      "청자":"celadon", "불상":"buddha", "도자기":"ceramic",
+      "고려":"Korea", "토기":"pottery", "백자":"porcelain"
+    };
+
+    const references = [
       {
-        id: "met-wave",
-        source: "The Met",
-        title: "가나가와 앞바다의 큰 파도",
-        period: "에도 시대 · 1830년경",
-        material: "목판화",
-        image: "https://images.metmuseum.org/CRDImages/as/original/DP251139.jpg",
-        url: "https://www.metmuseum.org/art/collection/search/45434",
-        terms: ["파도", "목판화", "일본", "에도"]
+        id:"emuseum-100651", source:"e-Museum", title:"중요문화재 요",
+        period:"나라 시대 · 8세기", material:"동제",
+        url:"https://emuseum.nich.go.jp/detail?content_base_id=100651&content_part_id=000&content_pict_id=0&langId=ko&webView=",
+        terms:["요","불교","나라","동제"]
       },
       {
-        id: "met-celadon",
-        source: "The Met",
-        title: "청자 꽃무늬 정병",
-        period: "고려 · 12세기",
-        material: "청자",
-        image: "https://images.metmuseum.org/CRDImages/as/original/DP146417.jpg",
-        url: "https://www.metmuseum.org/art/collection",
-        terms: ["청자", "고려", "도자기", "정병"]
-      },
-      {
-        id: "emuseum-bell",
-        source: "e-Museum",
-        title: "중요문화재 요",
-        period: "나라 시대 · 8세기",
-        material: "동제",
-        image: "",
-        url: "https://emuseum.nich.go.jp/detail?content_base_id=100651&content_part_id=000&content_pict_id=0&langId=ko&webView=",
-        terms: ["불교", "나라", "동제", "요"]
-      },
-      {
-        id: "tnm-bowl",
-        source: "Tokyo National Museum",
-        title: "항아리모양 토기",
-        period: "조몬 시대",
-        material: "토기",
-        image: "",
-        url: "https://www.tnm.jp/?lang=en",
-        terms: ["토기", "조몬", "항아리"]
-      },
-      {
-        id: "emuseum-scroll",
-        source: "e-Museum",
-        title: "보상화문여의",
-        period: "에도 시대",
-        material: "목제·칠",
-        image: "",
-        url: "https://emuseum.nich.go.jp/detail?content_base_id=100082&content_part_id=0&content_pict_id=0&langId=ko&webView=",
-        terms: ["불교", "여의", "칠", "에도"]
-      },
-      {
-        id: "tnm-ceramic",
-        source: "Tokyo National Museum",
-        title: "청자 접시",
-        period: "고려 시대",
-        material: "청자",
-        image: "",
-        url: "https://www.tnm.jp/?lang=en",
-        terms: ["청자", "고려", "접시", "도자기"]
+        id:"tnm-jar", source:"Tokyo National Museum", title:"항아리모양 토기",
+        period:"조몬 시대", material:"토기",
+        url:"https://www.tnm.jp/?lang=en",
+        terms:["토기","조몬","항아리"]
       }
     ];
 
-    let institutionFilter = "all";
-    let archiveFilter = "all";
-    let archiveSearch = "";
-
-    const $ = selector => document.querySelector(selector);
-    const getArchive = () => JSON.parse(localStorage.getItem("sujiplyeok-records") || "[]");
-    const setArchive = records => localStorage.setItem("sujiplyeok-records", JSON.stringify(records));
-
-    const escapeHtml = value => String(value || "").replace(/[&<>"']/g, char => ({
-      "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;"
-    }[char]));
-
-    function imageMarkup(url, title, className) {
-      if (!url) return "";
-      return `<img class="${className}" src="${url}" alt="${escapeHtml(title)}"
-        onerror="this.style.display='none';this.parentElement.classList.add('placeholder')">`;
-    }
+    let activeFilter = "all";
+    let archiveTab = "all";
+    let archiveQuery = "";
 
     function switchView(name) {
       $(".view.is-active").classList.remove("is-active");
       $(`#${name}-view`).classList.add("is-active");
-      window.scrollTo({ top: 0, behavior: "smooth" });
       location.hash = name;
+      window.scrollTo({top:0, behavior:"smooth"});
     }
 
-    function renderExternal(query = "") {
-      const search = query.trim().toLowerCase();
+    function image(url, title, className = "card-image") {
+      return url
+        ? `<img class="${className}" src="${url}" alt="${esc(title)}" onerror="this.style.display='none';this.parentElement.classList.add('placeholder')">`
+        : `<div class="${className} placeholder">외부 이미지 참조</div>`;
+    }
 
-      const results = externalItems.filter(item => {
-        const matchesInstitution = institutionFilter === "all" || item.source === institutionFilter;
-        const text = [item.title, item.source, item.period, item.material, ...item.terms]
-          .join(" ")
-          .toLowerCase();
-
-        return matchesInstitution && (!search || text.includes(search));
-      });
-
-      $("#results-summary").textContent =
-        search ? `“${query}” 검색 결과 ${results.length}점` : `공개 소장품 예시 ${results.length}점`;
-
-      $("#external-results").innerHTML = results.length
-        ? results.map(item => `
-          <article class="artifact-card">
-            <div class="artifact-image">
-              ${imageMarkup(item.image, item.title, "artifact-image")}
+    function card(item, isReference = false) {
+      const imageUrl = item.image || item.primaryImageSmall || "";
+      return `
+        <article class="artifact-card ${isReference ? "reference" : ""}">
+          ${image(imageUrl, item.title)}
+          <div class="meta">
+            <p class="institution">${esc(item.source)}</p>
+            <h3>${esc(item.title)}</h3>
+            <p class="detail">${esc(item.period)} · ${esc(item.material)}</p>
+            <div class="actions">
+              <a href="${item.url}" target="_blank" rel="noreferrer">원문 보기</a>
+              <button data-save="${esc(item.id)}">아카이브에 기록</button>
             </div>
-            <div class="artifact-meta">
-              <p class="artifact-topline">${escapeHtml(item.source)}</p>
-              <h3>${escapeHtml(item.title)}</h3>
-              <p class="artifact-detail">${escapeHtml(item.period)} · ${escapeHtml(item.material)}</p>
-              <div class="card-actions">
-                <a href="${item.url}" target="_blank" rel="noreferrer">원문 보기</a>
-                <button data-save-external="${item.id}">아카이브에 기록</button>
-              </div>
-            </div>
-          </article>
-        `).join("")
-        : `<p class="artifact-detail">조건에 맞는 자료가 없습니다.</p>`;
+          </div>
+        </article>`;
+    }
+
+    async function searchMet(keyword) {
+      const response = await fetch(`${MET_API}/search?q=${encodeURIComponent(keyword)}&hasImages=true`);
+      if (!response.ok) throw new Error("Met 검색 요청 실패");
+
+      const searchData = await response.json();
+      const ids = (searchData.objectIDs || []).slice(0, 18);
+
+      const objects = await Promise.all(
+        ids.map(id => fetch(`${MET_API}/objects/${id}`).then(response => response.json()))
+      );
+
+      return objects
+        .filter(item => item.objectID && item.title)
+        .map(item => ({
+          id:`met-${item.objectID}`,
+          source:"The Met",
+          title:item.title,
+          period:item.objectDate || item.dynasty || "시대 정보 없음",
+          material:item.medium || "재질 정보 없음",
+          image:item.primaryImageSmall || item.primaryImage || "",
+          url:item.objectURL,
+          raw:item
+        }));
+    }
+
+    async function searchCollections(rawQuery) {
+      const query = terms[rawQuery.trim()] || rawQuery.trim();
+      const output = $("#results");
+      const summary = $("#summary");
+
+      if (!query) {
+        summary.textContent = "검색어를 입력해 주세요.";
+        output.innerHTML = "";
+        return;
+      }
+
+      summary.textContent = "The Met 공개 소장품을 검색하는 중입니다…";
+      output.innerHTML = "";
+
+      const referenceResults = references.filter(item =>
+        activeFilter !== "all" && activeFilter !== item.source
+          ? false
+          : [item.title, item.source, item.period, item.material, ...item.terms]
+              .join(" ").toLowerCase().includes(rawQuery.toLowerCase())
+      );
+
+      let metResults = [];
+
+      try {
+        if (activeFilter === "all" || activeFilter === "The Met") {
+          metResults = await searchMet(query);
+        }
+
+        const items = [...metResults, ...referenceResults];
+        summary.textContent = `“${rawQuery}” 검색 결과 ${items.length}점`;
+
+        output.innerHTML = items.length
+          ? items.map(item => card(item, item.source !== "The Met")).join("")
+          : `<p class="detail">검색 결과가 없습니다. 영문 검색어 또는 예시 검색어를 사용해 보세요.</p>`;
+      } catch (error) {
+        summary.textContent = "The Met 데이터를 불러오지 못했습니다.";
+        output.innerHTML = `<p class="detail">인터넷 연결을 확인한 뒤 다시 검색해 주세요.</p>`;
+      }
     }
 
     function renderArchive() {
-      const records = getArchive();
-
-      const results = records.filter(record => {
-        const matchesType = archiveFilter === "all" || record.kind === archiveFilter;
-        const text = [
-          record.title, record.period, record.material,
-          record.tags, record.note, record.source
-        ].join(" ").toLowerCase();
-
-        return matchesType && (!archiveSearch || text.includes(archiveSearch.toLowerCase()));
+      const records = readArchive();
+      const visible = records.filter(record => {
+        const typeMatches = archiveTab === "all" || record.kind === archiveTab;
+        const text = [record.title, record.period, record.material, record.tags, record.note, record.source].join(" ").toLowerCase();
+        return typeMatches && (!archiveQuery || text.includes(archiveQuery.toLowerCase()));
       });
 
-      $("#count-all").textContent = records.length;
-      $("#count-owned").textContent = records.filter(record => record.kind === "owned").length;
-      $("#count-reference").textContent = records.filter(record => record.kind === "reference").length;
+      $("#all-count").textContent = records.length;
+      $("#owned-count").textContent = records.filter(record => record.kind === "owned").length;
+      $("#reference-count").textContent = records.filter(record => record.kind === "reference").length;
+      $("#empty").hidden = visible.length > 0;
 
-      $("#archive-empty").hidden = results.length > 0;
-
-      $("#archive-grid").innerHTML = results.map(record => `
-        <article class="archive-card ${record.kind === "reference" ? "external" : ""}">
-          <div class="archive-image">
-            ${imageMarkup(record.image, record.title, "archive-image")}
-          </div>
-          <p class="archive-type">${record.kind === "owned" ? "내 소장품" : "외부 참조 이미지"}</p>
-          <h3>${escapeHtml(record.title)}</h3>
-          <p>${escapeHtml([record.period, record.material].filter(Boolean).join(" · ") || record.source || "정보 미입력")}</p>
-
-          ${record.sourceUrl ? `
-            <p class="archive-source">
-              <a href="${record.sourceUrl}" target="_blank" rel="noreferrer">
-                ${escapeHtml(record.source || "원문 보기")} ↗
-              </a>
-            </p>
-          ` : ""}
-
-          <div class="archive-card-actions">
-            <button>편집</button>
-            <button class="delete-record" data-delete-record="${record.id}">삭제</button>
+      $("#archive-grid").innerHTML = visible.map(record => `
+        <article class="archive-card ${record.kind === "reference" ? "reference" : ""}">
+          ${image(record.image, record.title)}
+          <div class="meta">
+            <p class="type">${record.kind === "owned" ? "내 소장품" : "외부 참조 이미지"}</p>
+            <h3>${esc(record.title)}</h3>
+            <p>${esc([record.period, record.material].filter(Boolean).join(" · ") || record.source)}</p>
+            ${record.url ? `<p class="archive-source"><a href="${record.url}" target="_blank">원문 보기 ↗</a></p>` : ""}
+            <div class="actions">
+              <button class="delete" data-delete="${record.id}">삭제</button>
+            </div>
           </div>
         </article>
       `).join("");
@@ -518,93 +325,90 @@
       const switcher = event.target.closest("[data-switch]");
       if (switcher) switchView(switcher.dataset.switch);
 
-      const term = event.target.closest("[data-term]");
-      if (term) {
-        $("#external-search").value = term.dataset.term;
-        renderExternal(term.dataset.term);
+      const example = event.target.closest("[data-term]");
+      if (example) {
+        const value = example.dataset.term;
+        $("#search-input").value = value;
+        searchCollections(value);
       }
 
       const filter = event.target.closest(".filter");
       if (filter) {
-        institutionFilter = filter.dataset.filter;
-        document.querySelectorAll(".filter").forEach(button => {
-          button.classList.toggle("is-selected", button === filter);
-        });
-        renderExternal($("#external-search").value);
+        activeFilter = filter.dataset.filter;
+        document.querySelectorAll(".filter").forEach(button => button.classList.toggle("selected", button === filter));
+        if ($("#search-input").value) searchCollections($("#search-input").value);
       }
 
-      const save = event.target.closest("[data-save-external]");
-      if (save) {
-        const item = externalItems.find(record => record.id === save.dataset.saveExternal);
-        const records = getArchive();
+      const add = event.target.closest("[data-save]");
+      if (add) {
+        const id = add.dataset.save;
+        const cards = [...document.querySelectorAll(".artifact-card")];
+        const selected = cards.find(card => card.querySelector(`[data-save="${id}"]`));
 
-        if (!records.some(record => record.externalId === item.id)) {
+        if (!selected) return;
+
+        const title = selected.querySelector("h3").textContent;
+        const source = selected.querySelector(".institution").textContent;
+        const detail = selected.querySelector(".detail").textContent.split(" · ");
+        const imageElement = selected.querySelector("img");
+        const url = selected.querySelector("a").href;
+
+        const records = readArchive();
+        if (!records.some(record => record.externalId === id)) {
           records.unshift({
-            id: crypto.randomUUID(),
-            externalId: item.id,
-            kind: "reference",
-            title: item.title,
-            period: item.period,
-            material: item.material,
-            image: item.image,
-            source: item.source,
-            sourceUrl: item.url,
-            tags: item.terms.join(", ")
+            id:crypto.randomUUID(), externalId:id, kind:"reference",
+            title, source, period:detail[0], material:detail.slice(1).join(" · "),
+            image:imageElement ? imageElement.src : "", url
           });
-          setArchive(records);
+          saveArchive(records);
         }
 
         switchView("archive");
         renderArchive();
       }
 
-      const archiveTab = event.target.closest("[data-archive-filter]");
-      if (archiveTab) {
-        archiveFilter = archiveTab.dataset.archiveFilter;
-        document.querySelectorAll("[data-archive-filter]").forEach(button => {
-          button.setAttribute("aria-selected", button === archiveTab);
-        });
+      const tab = event.target.closest("[data-tab]");
+      if (tab) {
+        archiveTab = tab.dataset.tab;
+        document.querySelectorAll("[data-tab]").forEach(button => button.setAttribute("aria-selected", button === tab));
         renderArchive();
       }
 
-      const remove = event.target.closest("[data-delete-record]");
+      const remove = event.target.closest("[data-delete]");
       if (remove) {
-        const record = getArchive().find(item => item.id === remove.dataset.deleteRecord);
-
+        const record = readArchive().find(item => item.id === remove.dataset.delete);
         if (record && confirm(`“${record.title}” 기록을 삭제할까요?`)) {
-          setArchive(getArchive().filter(item => item.id !== record.id));
+          saveArchive(readArchive().filter(item => item.id !== record.id));
           renderArchive();
         }
       }
 
-      if (event.target.matches("[data-open-record]") || event.target.id === "add-record") {
-        $("#record-dialog").showModal();
-      }
+      if (event.target.id === "new-record" || event.target.matches("[data-new]")) $("#dialog").showModal();
     });
 
-    $("#external-search-form").addEventListener("submit", event => {
+    $("#search-form").addEventListener("submit", event => {
       event.preventDefault();
-      renderExternal($("#external-search").value);
+      searchCollections($("#search-input").value);
     });
 
     $("#archive-search-form").addEventListener("submit", event => {
       event.preventDefault();
-      archiveSearch = $("#archive-search-input").value;
+      archiveQuery = $("#archive-search").value;
       renderArchive();
     });
 
-    $("#cancel-record").addEventListener("click", () => $("#record-dialog").close());
-    $("#cancel-record-bottom").addEventListener("click", () => $("#record-dialog").close());
+    $("#close-dialog").onclick = () => $("#dialog").close();
+    $("#cancel-dialog").onclick = () => $("#dialog").close();
 
     $("#record-form").addEventListener("submit", async event => {
       event.preventDefault();
 
       const form = new FormData(event.target);
-      const file = $("#image-input").files[0];
+      const file = $("#file-input").files[0];
+      let imageUrl = "";
 
-      let image = "";
       if (file) {
-        image = await new Promise(resolve => {
+        imageUrl = await new Promise(resolve => {
           const reader = new FileReader();
           reader.onload = () => resolve(reader.result);
           reader.readAsDataURL(file);
@@ -612,26 +416,25 @@
       }
 
       const record = {
-        id: crypto.randomUUID(),
-        kind: form.get("kind"),
-        title: form.get("title"),
-        period: form.get("period"),
-        material: form.get("material"),
-        tags: form.get("tags"),
-        sourceUrl: form.get("sourceUrl"),
-        note: form.get("note"),
-        image,
-        source: form.get("kind") === "reference" ? "외부 참조" : "내 기록"
+        id:crypto.randomUUID(),
+        kind:form.get("kind"),
+        title:form.get("title"),
+        period:form.get("period"),
+        material:form.get("material"),
+        tags:form.get("tags"),
+        note:form.get("note"),
+        url:form.get("url"),
+        image:imageUrl,
+        source:form.get("kind") === "owned" ? "내 기록" : "외부 참조"
       };
 
-      setArchive([record, ...getArchive()]);
-      $("#record-dialog").close();
+      saveArchive([record, ...readArchive()]);
       event.target.reset();
+      $("#dialog").close();
       renderArchive();
     });
 
     if (location.hash === "#archive") switchView("archive");
-    renderExternal();
     renderArchive();
   </script>
 </body>
